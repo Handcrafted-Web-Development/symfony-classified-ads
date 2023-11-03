@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -12,10 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdController extends AbstractController
 {
-    #[Route('/ad', name: 'app_ad')]
+    #[Route('/admin/ad', name: 'app_ad')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(Request $request, ManagerRegistry $doctrine): Response
     {
         $ad = new Ad();
@@ -57,5 +60,19 @@ class AdController extends AbstractController
         return $this->render('ad/index.html.twig', [
             'form' => $form,
         ]);
+    }
+
+    #[Route('/ad/{id}', name: 'ad_show')]
+    public function show(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $ad = $entityManager->getRepository(Ad::class)->find($id);
+
+        if (!$ad) {
+            throw $this->createNotFoundException(
+                'No classified ad found for id ' . $id
+            );
+        }
+
+        return new Response('Check out this great product: ' . $ad->getTitle());
     }
 }
