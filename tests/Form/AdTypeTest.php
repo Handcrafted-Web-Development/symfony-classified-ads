@@ -4,6 +4,11 @@ namespace App\Tests\Form;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
 class AdTypeTest extends WebTestCase
 {
     public function testFormAd(): void
@@ -17,7 +22,7 @@ class AdTypeTest extends WebTestCase
             'form[year]' => 2017,
             'form[size]' => 6,
             'form[brand]' => 'Apple',
-            'form[due_date]' => date('Y-m-d'),
+            'form[dueDate]' => date('Y-m-d'),
             'form[guarantee]' => 'Garantie 6 mois',
         ];
 

@@ -1,0 +1,11 @@
+title: Créer une nouvelle annonce
+label:
+  title: Titre
+  description: Description
+  price: Prix
+  year: Année
+  size: Taille
+  brand: Marque
+  due_date: Date d'échéance
+  guarantee: Garantie
+  save: Sauvegarder

@@ -1,0 +1,11 @@
+title: Create a new ad
+label:
+  title: Title
+  description: Description
+  price: Price
+  year: Year
+  size: Size
+  brand: Brand
+  due_date: Due Date
+  guarantee: Guarantee
+  save: Save

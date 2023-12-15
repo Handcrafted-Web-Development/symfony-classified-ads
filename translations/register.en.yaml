@@ -1,0 +1,7 @@
+title: Register
+form:
+  label:
+    email: Email
+    password: Password
+    agree_terms: I agree with the terms and conditions
+  register: Register

@@ -1,0 +1,8 @@
+title: Connection
+form:
+  label:
+    email: Mail
+    password: Mot de passe
+    agree_terms: J'accepte les termes et les conditions
+  login: Connection
+  logout: Logout

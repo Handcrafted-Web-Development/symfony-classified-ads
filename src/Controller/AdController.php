@@ -3,23 +3,22 @@
 namespace App\Controller;
 
 use App\Entity\Ad;
+use App\Form\AdType;
+use App\Repository\AdRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+#[Route(path: '/{_locale}', requirements: ['_locale' => 'en|fr'], defaults: ['_locale' => 'en'])]
 class AdController extends AbstractController
 {
-    #[Route('/admin/ad', name: 'app_ad')]
+    #[Route('/admin/ad/create', name: 'ad_new')]
     #[IsGranted('ROLE_ADMIN')]
-    public function index(Request $request, ManagerRegistry $doctrine): Response
+    public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $ad = new Ad();
         $ad->setTitle('iPhone X en parfait état, à vendre à un bon prix !');
@@ -31,17 +30,7 @@ class AdController extends AbstractController
         $ad->setDueDate(new \DateTimeImmutable('tomorrow'));
         $ad->setGuarantee('Garantie 6 mois');
 
-        $form = $this->createFormBuilder($ad)
-            ->add('title', TextType::class)
-            ->add('description', TextType::class)
-            ->add('price', IntegerType::class)
-            ->add('year', IntegerType::class)
-            ->add('size', IntegerType::class)
-            ->add('brand', TextType::class)
-            ->add('due_date', DateType::class, ['widget' => 'single_text'])
-            ->add('guarantee', TextType::class)
-            ->add('save', SubmitType::class, ['label' => 'Create Ad'])
-            ->getForm();
+        $form = $this->createForm(AdType::class, $ad);
 
         $form->handleRequest($request);
 
@@ -57,22 +46,29 @@ class AdController extends AbstractController
             );
         }
 
-        return $this->render('ad/index.html.twig', [
+        return $this->render('ad/new.html.twig', [
             'form' => $form,
         ]);
     }
 
-    #[Route('/ad/{id}', name: 'ad_show')]
-    public function show(EntityManagerInterface $entityManager, int $id): Response
+    #[Route(path: '/ad', name: 'ad_index')]
+    #[Route('')]
+    public function index(EntityManagerInterface $entityManager, Request $request, AdRepository $repository): Response
     {
-        $ad = $entityManager->getRepository(Ad::class)->find($id);
+        $page = $request->query->get('page', 1);
+        $perPage = 6;
+        $paginator = $repository->findPaginated($page, $perPage);
+        $ads = $paginator->getQuery()->getResult();
+        $totalAds = count($paginator);
+        $totalPages = ceil($totalAds / $perPage);
 
-        if (!$ad) {
-            throw $this->createNotFoundException(
-                'No classified ad found for id ' . $id
-            );
-        }
+        return $this->render('ad/index.html.twig', ['ads' => $ads, 'page' => $page, 'totalPages' => $totalPages]);
+    }
 
-        return new Response('Check out this great product: ' . $ad->getTitle());
+    #[Route(path: '/ad/{id}', name: 'ad_show')]
+    public function show(Ad $ad): Response
+    {
+        return $this->render('ad/show.html.twig', ['ad' => $ad]);
     }
 }
+

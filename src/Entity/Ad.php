@@ -34,7 +34,7 @@ class Ad
     private ?string $brand = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $due_date = null;
+    private ?\DateTimeInterface $dueDate = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $guarantee = null;
@@ -118,12 +118,12 @@ class Ad
 
     public function getDueDate(): ?\DateTimeInterface
     {
-        return $this->due_date;
+        return $this->dueDate;
     }
 
-    public function setDueDate(\DateTimeInterface $due_date): static
+    public function setDueDate(\DateTimeInterface $dueDate): static
     {
-        $this->due_date = $due_date;
+        $this->dueDate = $dueDate;
 
         return $this;
     }

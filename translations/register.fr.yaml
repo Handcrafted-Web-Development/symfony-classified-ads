@@ -1,0 +1,7 @@
+title: S'inscrire
+form:
+  label:
+    email: Mail
+    password: Mot de passe
+    agree_terms: J'accepte les termes et les conditions
+  register: S'inscrire

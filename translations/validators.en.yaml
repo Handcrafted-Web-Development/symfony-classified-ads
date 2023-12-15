@@ -1,0 +1,5 @@
+errors:
+  password:
+    message: Please enter a password
+  agree_terms:
+    message: You should agree to our terms
