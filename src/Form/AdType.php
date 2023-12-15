@@ -7,6 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,7 +18,7 @@ class AdType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, ['label' => 'label.title'])
-            ->add('description', TextType::class, ['label' => 'label.description'])
+            ->add('description', TextareaType::class, ['label' => 'label.description'])
             ->add('price', IntegerType::class, ['label' => 'label.price'])
             ->add('year', IntegerType::class, ['label' => 'label.year'])
             ->add('size', IntegerType::class, ['label' => 'label.size'])

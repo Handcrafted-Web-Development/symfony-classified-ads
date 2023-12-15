@@ -21,14 +21,14 @@ class AdController extends AbstractController
     public function new(Request $request, ManagerRegistry $doctrine): Response
     {
         $ad = new Ad();
-        $ad->setTitle('iPhone X en parfait état, à vendre à un bon prix !');
-        $ad->setDescription('Un iPhone X, comme neuf, avec une capacité de 64 Go, aucune rayure ni problème. Livré avec un étui de protection en cuir.');
-        $ad->setPrice(350);
-        $ad->setYear(2017);
-        $ad->setSize(6);
-        $ad->setBrand('Apple');
-        $ad->setDueDate(new \DateTimeImmutable('tomorrow'));
-        $ad->setGuarantee('Garantie 6 mois');
+//        $ad->setTitle('iPhone X en parfait état, à vendre à un bon prix !');
+//        $ad->setDescription('Un iPhone X, comme neuf, avec une capacité de 64 Go, aucune rayure ni problème. Livré avec un étui de protection en cuir.');
+//        $ad->setPrice(350);
+//        $ad->setYear(2017);
+//        $ad->setSize(6);
+//        $ad->setBrand('Apple');
+//        $ad->setDueDate(new \DateTimeImmutable('tomorrow'));
+//        $ad->setGuarantee('Garantie 6 mois');
 
         $form = $this->createForm(AdType::class, $ad);
 
